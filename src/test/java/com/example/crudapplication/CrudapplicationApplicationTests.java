@@ -12,7 +12,7 @@ class CrudApplicationApplicationTests {
     @Test
     void contextLoads() {
 
-        var modules = ApplicationModules.of(CrudApplicationApplication.class).verify();
+        var modules = ApplicationModules.of(CrudApplication.class).verify();
 
         new Documenter(modules)
                 .writeModulesAsPlantUml()

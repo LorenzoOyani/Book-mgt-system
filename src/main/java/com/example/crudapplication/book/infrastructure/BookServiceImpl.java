@@ -1,20 +1,25 @@
-package com.example.crudapplication.book.service;
+package com.example.crudapplication.book.infrastructure;
 
 import com.example.crudapplication.Exception.ErrorCode;
 import com.example.crudapplication.Exception.GeneralException;
-import com.example.crudapplication.book.BookDto;
-import com.example.crudapplication.book.bookEntiity.Book;
-import com.example.crudapplication.book.bookEntiity.BookRepository;
+import com.example.crudapplication.book.Application.BookService;
+import com.example.crudapplication.book.Domain.BookDto;
+import com.example.crudapplication.book.Domain.Book;
+import com.example.crudapplication.book.Domain.BookRepository;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class BookServiceImpl implements BookService {
 
 
@@ -68,4 +73,17 @@ public class BookServiceImpl implements BookService {
     public Page<BookDto> getBooks(Pageable pageable) {
         return bookRepository.findAll(pageable).map(book ->modelMapper.map (book, BookDto.class));
     }
+
+    public List<BookDto> findBookByAuthorFullNameStartingWith(String prefix){
+       List<Book> book =  bookRepository.findBookByAuthorFullNameStartingWith(prefix);
+       if(book == null || book.isEmpty()  || !book.getFirst().getAuthorFullName().startsWith(prefix, 1)){
+           throw new GeneralException(ErrorCode.PREFIX_NOT_FOUND);
+       }
+        if(!book.isEmpty()){
+            log.info(" The list of books found are {}", book.getFirst());
+        }
+       return book.stream().map(n -> modelMapper.map(n, BookDto.class))
+               .collect(Collectors.toList());
+    }
+
 }

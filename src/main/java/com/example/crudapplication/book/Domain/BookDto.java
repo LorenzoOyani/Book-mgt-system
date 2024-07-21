@@ -1,4 +1,4 @@
-package com.example.crudapplication.book;
+package com.example.crudapplication.book.Domain;
 
 import lombok.Data;
 import lombok.Getter;

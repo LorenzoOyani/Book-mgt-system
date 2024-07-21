@@ -55,6 +55,8 @@ public class ControllerException {
         } else if (Objects.requireNonNull(errorCode) == ErrorCode.AUTHOR_NOT_FOUND) {
             return HttpStatus.NOT_FOUND;
 
+        }else if(Objects.requireNonNull(errorCode) == ErrorCode.PREFIX_NOT_FOUND){
+            return HttpStatus.NOT_FOUND;
         }
         return HttpStatus.INTERNAL_SERVER_ERROR;
     }

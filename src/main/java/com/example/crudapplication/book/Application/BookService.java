@@ -1,16 +1,16 @@
-package com.example.crudapplication.book.service;
+package com.example.crudapplication.book.Application;
 
 
-import com.example.crudapplication.book.BookDto;
-import com.example.crudapplication.book.bookEntiity.Book;
+import com.example.crudapplication.book.Domain.BookDto;
+import com.example.crudapplication.book.Domain.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 
-
-public interface  BookService {
+ public interface  BookService {
 
    Optional<BookDto> createBook(Book book);
 
@@ -21,6 +21,8 @@ public interface  BookService {
    BookDto searchBookByAuthorsFullName(String authorName);
 
    Page<BookDto> getBooks(Pageable pageable);
+
+   List<BookDto> findBookByAuthorFullNameStartingWith(String prefix);
 }
 
 

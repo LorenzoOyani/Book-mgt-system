@@ -1,18 +1,13 @@
-package com.example.crudapplication.book.bookEntiity;
+package com.example.crudapplication.book.Domain;
 
-import com.example.crudapplication.book.BookDto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.springframework.beans.BeanUtils;
 
 import java.math.BigDecimal;
-import java.util.UUID;
-
-
 
 
 @Data
@@ -22,6 +17,7 @@ import java.util.UUID;
 @Setter
 //@EqualsAndHashCode(callSuper = true)
 @Entity
+@Cacheable
 @Table(name = "book")
 public class Book {
 

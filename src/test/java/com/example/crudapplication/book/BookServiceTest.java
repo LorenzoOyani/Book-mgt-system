@@ -1,8 +1,9 @@
 package com.example.crudapplication.book;
 
-import com.example.crudapplication.book.bookEntiity.Book;
-import com.example.crudapplication.book.bookEntiity.BookRepository;
-import com.example.crudapplication.book.service.BookServiceImpl;
+import com.example.crudapplication.book.Domain.Book;
+import com.example.crudapplication.book.Domain.BookDto;
+import com.example.crudapplication.book.Domain.BookRepository;
+import com.example.crudapplication.book.infrastructure.BookServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

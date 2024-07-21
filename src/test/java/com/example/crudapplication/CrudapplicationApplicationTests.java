@@ -5,7 +5,6 @@ import org.springframework.modulith.core.ApplicationModules;
 import org.springframework.modulith.docs.Documenter;
 import org.springframework.modulith.test.ApplicationModuleTest;
 
-@SpringBootTest
 @ApplicationModuleTest
 class CrudApplicationApplicationTests {
 
@@ -13,6 +12,7 @@ class CrudApplicationApplicationTests {
     void contextLoads() {
 
         var modules = ApplicationModules.of(CrudApplication.class).verify();
+        modules.forEach(System.out::println);
 
         new Documenter(modules)
                 .writeModulesAsPlantUml()

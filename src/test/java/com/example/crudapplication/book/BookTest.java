@@ -1,8 +1,9 @@
 package com.example.crudapplication.book;
 
-import com.example.crudapplication.book.bookEntiity.Book;
-import com.example.crudapplication.book.bookEntiity.BookRepository;
-import com.example.crudapplication.book.service.BookServiceImpl;
+import com.example.crudapplication.book.Domain.Book;
+import com.example.crudapplication.book.Domain.BookDto;
+import com.example.crudapplication.book.Domain.BookRepository;
+import com.example.crudapplication.book.infrastructure.BookServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +27,6 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;

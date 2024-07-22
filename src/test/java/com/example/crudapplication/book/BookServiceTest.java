@@ -1,8 +1,6 @@
 package com.example.crudapplication.book;
 
-import com.example.crudapplication.book.Domain.Book;
-import com.example.crudapplication.book.Domain.BookDto;
-import com.example.crudapplication.book.Domain.BookRepository;
+import com.example.crudapplication.book.Domain.*;
 import com.example.crudapplication.book.infrastructure.BookServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,14 +38,16 @@ public class BookServiceTest {
     void testSearchBookBy_AuthorFullName_Found() {
         String authorName = "Eggy mule";
         Book book = new Book();
-        book.setId(1);
-        book.setIsbn("1234");
+        BookId bookId = new BookId(1);
+        Isbn isbn = new Isbn("1298");
+        book.setId(bookId);
+        book.setIsbn(isbn);
         book.setName("Some Book");
         book.setAuthorFullName(authorName);
         book.setStock(10);
         book.setPrice(new BigDecimal("29.99"));
 
-        BookDto bookDto = new BookDto(1, "1234", "Some Book", authorName, 10, new BigDecimal("29.99"));
+        BookDto bookDto = new BookDto(new BookId(4), new Isbn("1298"), "Some Book", authorName, 10, new BigDecimal("29.99"));
 
         when(bookRepository.findBookByAuthorFullName(authorName)).thenReturn(book);
         when(modelMapper.map(book, BookDto.class)).thenReturn(bookDto);

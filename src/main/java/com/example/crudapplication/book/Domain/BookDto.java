@@ -10,8 +10,8 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class BookDto {
-    private int id;
-    private String isbn;
+    private BookId id;
+    private Isbn isbn;
     private String name;
     private String authorFullName;
     private Integer stock;
@@ -21,7 +21,7 @@ public class BookDto {
     public BookDto() {}
 
     // Constructor with all fields
-    public BookDto(int id, String isbn, String name, String authorFullName, Integer stock, BigDecimal price) {
+    public BookDto(BookId id, Isbn isbn, String name, String authorFullName, Integer stock, BigDecimal price) {
         this.id = id;
         this.isbn = isbn;
         this.name = name;

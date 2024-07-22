@@ -1,8 +1,6 @@
 package com.example.crudapplication.book;
 
-import com.example.crudapplication.book.Domain.Book;
-import com.example.crudapplication.book.Domain.BookDto;
-import com.example.crudapplication.book.Domain.BookRepository;
+import com.example.crudapplication.book.Domain.*;
 import com.example.crudapplication.book.infrastructure.BookServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -54,12 +52,13 @@ class BookTest {
 
     @Test
     void testCreateBook() throws Exception {
-        BookDto bookDto = new BookDto(1, "1298", "Deception Point", "Dan Brown", 1, new BigDecimal("453.4"));
+        BookDto bookDto = new BookDto(new BookId(1), new Isbn("1298"), "Deception Point", "Dan Brown", 1, new BigDecimal("453.4"));
 
         when(bookService.createBook(any(Book.class))).thenReturn(Optional.of(bookDto));
 
         Book book = new Book();
-        book.setIsbn("1298");
+        Isbn isbn = new Isbn("345");
+        book.setIsbn(isbn);
         book.setName("Deception Point");
         book.setAuthorFullName("Dan Brown");
         book.setStock(1);
@@ -74,8 +73,8 @@ class BookTest {
 
     @Test
     public void get_Book_by_id() throws Exception {
-        BookDto book1 = new BookDto(1, "1234", "Book One", "Author One", 10, new BigDecimal("100.00"));
-        BookDto book2 = new BookDto(2, "5678", "Book Two", "Author Two", 5, new BigDecimal("150.00"));
+        BookDto book1 = new BookDto(new BookId(2), new Isbn("1298"), "Book One", "Author One", 10, new BigDecimal("100.00"));
+        BookDto book2 = new BookDto(new BookId(3), new Isbn("1298"), "Book Two", "Author Two", 5, new BigDecimal("150.00"));
 
         List<BookDto> listClass = Arrays.asList(book1, book2);
         Page<BookDto> paged = new PageImpl<>(listClass);

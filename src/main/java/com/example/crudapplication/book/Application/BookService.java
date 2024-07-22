@@ -3,6 +3,7 @@ package com.example.crudapplication.book.Application;
 
 import com.example.crudapplication.book.Domain.BookDto;
 import com.example.crudapplication.book.Domain.Book;
+import com.example.crudapplication.book.Domain.BookId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -14,7 +15,7 @@ import java.util.Optional;
 
    Optional<BookDto> createBook(Book book);
 
-   Optional<BookDto> findBookById(Long id);
+   Optional<BookDto> findBookById(BookId id);
 
    Page<BookDto> findBook(Pageable pageable);
 

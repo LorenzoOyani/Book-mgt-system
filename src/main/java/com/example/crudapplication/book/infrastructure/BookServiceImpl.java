@@ -5,6 +5,7 @@ import com.example.crudapplication.Exception.GeneralException;
 import com.example.crudapplication.book.Application.BookService;
 import com.example.crudapplication.book.Domain.BookDto;
 import com.example.crudapplication.book.Domain.Book;
+import com.example.crudapplication.book.Domain.BookId;
 import com.example.crudapplication.book.Domain.BookRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +48,7 @@ public class BookServiceImpl implements BookService {
 
     @Transactional
     @Override
-    public Optional<BookDto> findBookById(Long id) {
+    public Optional<BookDto> findBookById(BookId id) {
         Optional<Book> book = bookRepository.findById(id);
         return book.map(value -> modelMapper.map(value, BookDto.class));
     }

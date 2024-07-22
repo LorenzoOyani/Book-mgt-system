@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface BookRepository extends JpaRepository<Book, Long> {
+public interface BookRepository extends JpaRepository<Book, BookId> {
     Book findBookByAuthorFullName(String authorName);
 
     @Query(value = "select b from book as b where b.author_full_name LIKE :prefix")

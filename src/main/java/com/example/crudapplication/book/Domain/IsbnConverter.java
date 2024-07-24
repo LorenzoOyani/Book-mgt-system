@@ -1,6 +1,5 @@
-package com.example.crudapplication.config;
+package com.example.crudapplication.book.Domain;
 
-import com.example.crudapplication.book.Domain.Isbn;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 

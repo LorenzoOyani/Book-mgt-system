@@ -1,5 +1,8 @@
 package com.example.crudapplication.book;
 
+import com.example.crudapplication.author.Domain.Author;
+import com.example.crudapplication.author.Domain.AuthorId;
+import com.example.crudapplication.author.Domain.AuthorRepository;
 import com.example.crudapplication.book.Domain.*;
 import com.example.crudapplication.book.infrastructure.BookServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,6 +42,9 @@ class BookTest {
     @Mock
     private BookRepository bookRepository;
 
+    @Mock
+    private AuthorRepository authorRepository;
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -52,17 +58,21 @@ class BookTest {
 
     @Test
     void testCreateBook() throws Exception {
-        BookDto bookDto = new BookDto(new BookId(1), new Isbn("1298"), "Deception Point", "Dan Brown", 1, new BigDecimal("453.4"));
-
-        when(bookService.createBook(any(Book.class))).thenReturn(Optional.of(bookDto));
-
+        AuthorId authorId = new AuthorId(1L);
+        Author author = new Author(authorId, "John");
+//        BookDto bookDto = new BookDto(new BookId(1), new Isbn("1298"), "Deception Point", "Dan Brown", 1, new BigDecimal("453.4"), authorId);
         Book book = new Book();
+
+        when(authorRepository.findById(authorId)).thenReturn(Optional.of(author));
+        when(bookRepository.save(any(Book.class))).thenReturn(book);
+
         Isbn isbn = new Isbn("345");
         book.setIsbn(isbn);
         book.setName("Deception Point");
         book.setAuthorFullName("Dan Brown");
         book.setStock(1);
         book.setPrice(new BigDecimal("453.4"));
+        book.setAuthor(author);
         String mappers = objectMapper.writeValueAsString(book); // mapping to Json strings
 
         mockMvc.perform(post("/api/books")
@@ -73,8 +83,9 @@ class BookTest {
 
     @Test
     public void get_Book_by_id() throws Exception {
-        BookDto book1 = new BookDto(new BookId(2), new Isbn("1298"), "Book One", "Author One", 10, new BigDecimal("100.00"));
-        BookDto book2 = new BookDto(new BookId(3), new Isbn("1298"), "Book Two", "Author Two", 5, new BigDecimal("150.00"));
+        AuthorId id = new AuthorId(1L);
+        BookDto book1 = new BookDto(new BookId(2), new Isbn("1298"), "Book One", "Author One", 10, new BigDecimal("100.00"), id);
+        BookDto book2 = new BookDto(new BookId(3), new Isbn("1298"), "Book Two", "Author Two", 5, new BigDecimal("150.00"), id);
 
         List<BookDto> listClass = Arrays.asList(book1, book2);
         Page<BookDto> paged = new PageImpl<>(listClass);

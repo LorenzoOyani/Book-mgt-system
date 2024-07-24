@@ -2,6 +2,7 @@ package com.example.crudapplication.book.Domain;
 
 import com.example.crudapplication.Exception.ErrorCode;
 import com.example.crudapplication.Exception.GeneralException;
+import com.example.crudapplication.author.Domain.Author;
 import com.example.crudapplication.book.Application.BookService;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,13 +30,27 @@ class BookController {
         this.modelMapper = modelMapper;
     }
 
-    @PostMapping
-    public ResponseEntity<BookDto> createBook(@Validated @RequestBody Book book) {
-        Optional<BookDto> createdBook = bookService.createBook(book);
+    @PostMapping("/createBook")
+    public ResponseEntity<Optional<BookDto>> createBook(
+            @Validated @RequestBody CreateBookRequest request
+            )
 
-        return createdBook
-                .map(bookDto -> new ResponseEntity<>(bookDto, HttpStatus.CREATED))
-                .orElseThrow(() -> new GeneralException(ErrorCode.BOOK_NOT_FOUND));
+    {
+
+        Optional<BookDto> book = bookService.createBook(
+                request.getId(),
+                request.getIsbn(),
+                request.getBookName(),
+                request.getFullName(),
+                request.getStock(),
+                request.getPrice(),
+                request.getAuthorId()
+
+
+        );
+        return book.map(bookId -> new ResponseEntity<>(book, HttpStatus.CREATED))
+                .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
+
     }
 
     @GetMapping("/{id}")
@@ -50,7 +66,7 @@ class BookController {
         return new ResponseEntity<>(listsOfPage, HttpStatus.OK);
     }
 
-    @GetMapping("/AUTHOR")
+    @GetMapping("/author")
     public ResponseEntity<BookDto> searchAuthorName(@RequestParam String authorName) {
         BookDto bookDto = bookService.searchBookByAuthorsFullName(authorName);
         if (bookDto != null) {
@@ -80,5 +96,12 @@ class BookController {
     public List<BookDto> getBooksByAuthorFirstNameStartingWith(@RequestParam String prefix) {
         return bookService.findBookByAuthorFullNameStartingWith(prefix);
 
+    }
+
+    @GetMapping("/{isbn}")
+    public  ResponseEntity<BookDto> findByIsbn(@PathVariable String isbn){
+        Optional<BookDto> findIsbn = bookService.findByIsbn(isbn);
+        return findIsbn.map(books -> new ResponseEntity<>(books, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

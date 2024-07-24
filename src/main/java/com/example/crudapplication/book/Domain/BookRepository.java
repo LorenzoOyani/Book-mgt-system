@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, BookId> {
@@ -13,4 +14,6 @@ public interface BookRepository extends JpaRepository<Book, BookId> {
 
     @Query(value = "select b from book as b where b.author_full_name LIKE :prefix")
     List<Book> findBookByAuthorFullNameStartingWith(@Param("prefix") String prefix);
+
+    Optional<Book> findByIsbn(Isbn isbn);
 };

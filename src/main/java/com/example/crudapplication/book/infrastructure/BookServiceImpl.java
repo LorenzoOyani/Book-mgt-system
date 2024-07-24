@@ -2,11 +2,13 @@ package com.example.crudapplication.book.infrastructure;
 
 import com.example.crudapplication.Exception.ErrorCode;
 import com.example.crudapplication.Exception.GeneralException;
+import com.example.crudapplication.author.Domain.Author;
+import com.example.crudapplication.author.Domain.AuthorId;
+import com.example.crudapplication.author.Domain.AuthorRepository;
 import com.example.crudapplication.book.Application.BookService;
-import com.example.crudapplication.book.Domain.BookDto;
-import com.example.crudapplication.book.Domain.Book;
-import com.example.crudapplication.book.Domain.BookId;
-import com.example.crudapplication.book.Domain.BookRepository;
+import com.example.crudapplication.book.Domain.*;
+import com.example.crudapplication.book.Domain.EntityException.EntityErrorCodes;
+import com.example.crudapplication.book.Domain.EntityException.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,25 +29,39 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
 
+    private final AuthorRepository authorRepository;
+
     private final ModelMapper modelMapper;
 
 
     @Autowired
-    public BookServiceImpl(BookRepository bookRepository, ModelMapper modelMapper) {
+    public BookServiceImpl(BookRepository bookRepository, AuthorRepository authorRepository, ModelMapper modelMapper) {
         this.bookRepository = bookRepository;
+        this.authorRepository = authorRepository;
         this.modelMapper = modelMapper;
     }
 
+
+
     @Transactional
-    public Optional<BookDto> createBook(Book book) {
+    @Override
+    public Optional<BookDto> createBook(BookId id, Isbn isbn, String bookName, String fullName, Integer stock, BigDecimal price, AuthorId authorid) {
+        Optional<Author> optionalAuthor = authorRepository.findById(authorid);
+
+        if(optionalAuthor.isEmpty()){
+            throw new EntityNotFoundException(EntityErrorCodes.ENTITY_NOT_FOUND);
+        }
+        Author author = optionalAuthor.get();
         try {
-            Book createdBook = bookRepository.save(book);
-            BookDto bookDto = modelMapper.map(createdBook, BookDto.class);
-            return Optional.of(bookDto);
-        } catch (Exception e) {
-            throw new GeneralException(ErrorCode.BOOK_NOT_FOUND);
+            Book newBook = BookFactory.createBook(id,isbn, bookName, fullName, stock, price, author);
+            bookRepository.save(newBook);
+
+            return Optional.ofNullable(modelMapper.map(newBook, BookDto.class));
+        }catch (Exception ignored){
+            throw new EntityNotFoundException(EntityErrorCodes.SAVE_BOOK_ERROR);
         }
     }
+
 
     @Transactional
     @Override
@@ -85,6 +102,14 @@ public class BookServiceImpl implements BookService {
         }
        return book.stream().map(n -> modelMapper.map(n, BookDto.class))
                .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public Optional<BookDto> findByIsbn(String isbn) {
+        Isbn isbnValue = IsbnFactory.CreateIsbn(isbn);
+        Optional<Book> book = bookRepository.findByIsbn(isbnValue);
+        return book.map(books -> modelMapper.map(book, BookDto.class));
     }
 
 }

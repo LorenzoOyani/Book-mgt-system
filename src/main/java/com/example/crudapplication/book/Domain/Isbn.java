@@ -12,17 +12,11 @@ import java.util.Objects;
 public class Isbn {
     private  String value;
 
-    public Isbn(String value) {
-        ISBNValidator validator = new ISBNValidator();
-        if(!validator.isValid(value) || value == null){
-            throw new IllegalArgumentException("invalid ISBN: "+ value);
-        }
+    public Isbn(String value){
         this.value = value;
     }
 
-    public Isbn() {
-
-    }
+    public Isbn() {};
 
     @Override
     public boolean equals(Object o){

@@ -32,7 +32,7 @@ class BookController {
 
     @PostMapping("/createBook")
     public ResponseEntity<Optional<BookDto>> createBook(
-            @Validated @RequestBody CreateBookRequest request
+            @Validated @RequestParam CreateBookRequest request
             )
 
     {

@@ -2,7 +2,6 @@ package com.example.crudapplication.book.Domain;
 
 import com.example.crudapplication.Exception.ErrorCode;
 import com.example.crudapplication.Exception.GeneralException;
-import com.example.crudapplication.author.Domain.Author;
 import com.example.crudapplication.book.Application.BookService;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -30,28 +29,21 @@ class BookController {
         this.modelMapper = modelMapper;
     }
 
-    @PostMapping("/createBook")
-    public ResponseEntity<Optional<BookDto>> createBook(
-            @Validated @RequestParam CreateBookRequest request
-            )
-
-    {
-
-        Optional<BookDto> book = bookService.createBook(
-                request.getId(),
-                request.getIsbn(),
-                request.getBookName(),
-                request.getFullName(),
-                request.getStock(),
-                request.getPrice(),
-                request.getAuthorId()
-
-
-        );
-        return book.map(bookId -> new ResponseEntity<>(book, HttpStatus.CREATED))
-                .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
-
-    }
+//    @PostMapping("/createBook")
+//    public ResponseEntity<Optional<BookDto>> createBook(@Validated @RequestBody Book book) {
+//        Optional<BookDto> books = bookService.createBook(
+//                        book.getId(),
+//                        book.getIsbn(),
+//                        book.getName(),
+//                        book.getAuthorFullName(),
+//                        book.getStock(),
+//                        book.getPrice()
+//
+//        );
+//        return books.map(bookId -> modelMapper.map(new ResponseEntity<>(BookDto.class, HttpStatus.CREATED)))
+//                .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
+//
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<BookDto> findBookById(@PathVariable BookId id) {
@@ -99,7 +91,7 @@ class BookController {
     }
 
     @GetMapping("/{isbn}")
-    public  ResponseEntity<BookDto> findByIsbn(@PathVariable String isbn){
+    public ResponseEntity<BookDto> findByIsbn(@PathVariable String isbn) {
         Optional<BookDto> findIsbn = bookService.findByIsbn(isbn);
         return findIsbn.map(books -> new ResponseEntity<>(books, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));

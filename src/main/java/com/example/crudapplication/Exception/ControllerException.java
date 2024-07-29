@@ -50,7 +50,6 @@ public class ControllerException {
 
     private HttpStatusCode mappedToHttpStatus(ErrorCode errorCode) {
         if (Objects.requireNonNull(errorCode) == ErrorCode.BOOK_NOT_FOUND) {
-            //   Objects.requireNonNull is used to check parameter  validation in a  method or constructor
             return HttpStatus.NOT_FOUND;
         } else if (Objects.requireNonNull(errorCode) == ErrorCode.AUTHOR_NOT_FOUND) {
             return HttpStatus.NOT_FOUND;

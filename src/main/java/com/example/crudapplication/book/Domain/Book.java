@@ -1,6 +1,6 @@
 package com.example.crudapplication.book.Domain;
 
-import com.example.crudapplication.author.Domain.Author;
+import com.example.crudapplication.book.Domain.converters.IsbnConverter;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -10,7 +10,6 @@ import lombok.*;
 import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -19,6 +18,8 @@ import java.util.Optional;
 @Setter
 @Entity
 @Cacheable
+@EqualsAndHashCode
+@Builder
 @Table(name = "book")
 public class Book {
 
@@ -47,32 +48,39 @@ public class Book {
     @NotNull(message = "price cannot be null")
     private BigDecimal price;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "author_id", referencedColumnName = "id")
-    private Author author;
+    @Version
+    private Long version;
+
+
 
 
     @JsonCreator
-    public Book(BookId id, Isbn isbn,@JsonProperty("book_name") String name, String authorFullName, int stock, BigDecimal price, Author author) {
+    public static Book createBookWithId(BookId id, Isbn isbn,@JsonProperty("book_name") String name, String authorFullName, int stock, BigDecimal price) {
         Assert.notNull(isbn, "isbn cannot be null");
-        this.id = id;
-        this.name = name;
-        this.authorFullName = authorFullName;
-        this.stock =stock;
-        this.price = price;
-        this.author = author;
+       Book book = new Book();
+       book.id = id;
+       book.isbn = isbn;
+       book.name = name;
+       book.authorFullName = authorFullName;
+       book.stock = stock;
+       book.price = price;
+
+       return book;
     }
 
-    public Book(Isbn isbn, @JsonProperty("book_name") String name, String authorFullName, int stock, BigDecimal price, Author author){
-        this.isbn = isbn;
-        this.name = name;
-        this.authorFullName = authorFullName;
-        this.stock = stock;
-        this.price = price;
-        this.author = author;
+    public static Book createBook(Isbn isbn, @JsonProperty("book_name") String name, String authorFullName, int stock, BigDecimal price){
+        Book book = new Book();
+        book.isbn = isbn;
+        book.name = name;
+        book.authorFullName = authorFullName;
+        book.stock = stock;
+        book.price = price;
+
+        return book;
     }
 
 
+    // HIGH-READ, LOW-WRITE
 
 
 }

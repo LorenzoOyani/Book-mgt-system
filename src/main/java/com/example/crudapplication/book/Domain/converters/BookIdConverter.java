@@ -1,5 +1,6 @@
-package com.example.crudapplication.book.Domain;
+package com.example.crudapplication.book.Domain.converters;
 
+import com.example.crudapplication.book.Domain.BookId;
 import jakarta.persistence.AttributeConverter;
 
 public class BookIdConverter implements AttributeConverter<BookId, Integer> {

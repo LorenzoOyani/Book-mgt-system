@@ -1,7 +1,9 @@
 package com.example.crudapplication.book.Domain;
 
+import jakarta.persistence.LockModeType;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +18,8 @@ public interface BookRepository extends JpaRepository<Book, BookId> {
     List<Book> findBookByAuthorFullNameStartingWith(@Param("prefix") String prefix);
 
     Optional<Book> findByIsbn(Isbn isbn);
+
+
+    @Lock(LockModeType.OPTIMISTIC)
+    Optional<Book> findBookById(BookId bookId);
 };

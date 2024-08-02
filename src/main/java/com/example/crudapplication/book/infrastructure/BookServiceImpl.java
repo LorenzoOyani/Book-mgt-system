@@ -2,9 +2,13 @@ package com.example.crudapplication.book.infrastructure;
 
 import com.example.crudapplication.Exception.ErrorCode;
 import com.example.crudapplication.Exception.GeneralException;
+import com.example.crudapplication.book.Application.BookRepository;
 import com.example.crudapplication.book.Application.BookService;
-import com.example.crudapplication.book.Domain.*;
+import com.example.crudapplication.book.Domain.EntityException.NoAvailableStockException;
 import com.example.crudapplication.book.Domain.bookMapper.BookMapper;
+import com.example.crudapplication.book.Domain.dto.BookDto;
+import com.example.crudapplication.book.Domain.model.*;
+import com.example.crudapplication.book.Domain.payload.BookUpdateStockRequest;
 import com.example.crudapplication.book.Domain.payload.CreateBookRequest;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -91,6 +95,20 @@ public class BookServiceImpl implements BookService {
         Isbn isbnValue = IsbnFactory.CreateIsbn(isbn);
         Optional<Book> book = bookRepository.findByIsbn(isbnValue);
         return book.map(books -> modelMapper.map(book, BookDto.class));
+    }
+
+    @Override
+    public boolean isStockAvailable(BookDto bookDto, int amount) {
+
+        if(bookDto.getStock() < amount){
+            throw new NoAvailableStockException(amount);
+        }
+        return true;
+    }
+
+    @Override
+    public void updateStockById(BookId id, BookUpdateStockRequest updateStockRequest) {
+
     }
 
 }

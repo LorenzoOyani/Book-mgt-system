@@ -1,5 +1,8 @@
-package com.example.crudapplication.book.Domain;
+package com.example.crudapplication.book.Application;
 
+import com.example.crudapplication.book.Domain.model.Book;
+import com.example.crudapplication.book.Domain.model.BookId;
+import com.example.crudapplication.book.Domain.model.Isbn;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.jpa.repository.JpaRepository;

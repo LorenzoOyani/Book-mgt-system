@@ -1,7 +1,7 @@
 package com.example.crudapplication.book.Domain.payload;
 
-import com.example.crudapplication.book.Domain.BookId;
-import com.example.crudapplication.book.Domain.Isbn;
+import com.example.crudapplication.book.Domain.model.BookId;
+import com.example.crudapplication.book.Domain.model.Isbn;
 import jakarta.persistence.Version;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

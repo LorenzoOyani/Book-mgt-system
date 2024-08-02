@@ -1,8 +1,7 @@
-package com.example.crudapplication.book.Domain;
+package com.example.crudapplication.book.Domain.model;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
-import org.apache.commons.validator.routines.ISBNValidator;
 
 import java.util.Objects;
 

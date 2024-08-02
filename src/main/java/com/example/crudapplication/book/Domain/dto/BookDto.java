@@ -1,6 +1,9 @@
-package com.example.crudapplication.book.Domain;
+package com.example.crudapplication.book.Domain.dto;
 
+import com.example.crudapplication.book.Domain.model.BookId;
+import com.example.crudapplication.book.Domain.model.Isbn;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -8,17 +11,19 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Getter
-@Setter
 @Builder
 public class BookDto {
     private BookId id;
     private Isbn isbn;
     private String name;
     private String authorFullName;
+
+    @Min(1)
     private Integer stock;
     private BigDecimal price;
     private Long version;
+
+
 
 
     @JsonCreator

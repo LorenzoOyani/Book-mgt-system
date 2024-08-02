@@ -1,4 +1,4 @@
-package com.example.crudapplication.book.Domain;
+package com.example.crudapplication.book.Domain.model;
 
 
 import com.example.crudapplication.book.Domain.payload.CreateBookRequest;

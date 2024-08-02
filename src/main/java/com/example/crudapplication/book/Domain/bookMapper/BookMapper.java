@@ -1,8 +1,8 @@
 package com.example.crudapplication.book.Domain.bookMapper;
 
 
-import com.example.crudapplication.book.Domain.Book;
-import com.example.crudapplication.book.Domain.BookDto;
+import com.example.crudapplication.book.Domain.model.Book;
+import com.example.crudapplication.book.Domain.dto.BookDto;
 import com.example.crudapplication.book.Domain.payload.CreateBookRequest;
 import com.example.crudapplication.book.Domain.payload.UpdateBookRequest;
 import lombok.experimental.UtilityClass;
@@ -28,6 +28,18 @@ public class BookMapper {
                 .version(request.getVersion())
                 .build();
 
+    }
+
+    public static Book toBook(BookDto bookDto){
+        return Book.builder()
+                .id(bookDto.getId())
+                .isbn(bookDto.getIsbn())
+                .name(bookDto.getName())
+                .authorFullName(bookDto.getAuthorFullName())
+                .stock(bookDto.getStock())
+                .price(bookDto.getPrice())
+                .version(bookDto.getVersion())
+                .build();
     }
 
     /**

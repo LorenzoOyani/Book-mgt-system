@@ -1,4 +1,4 @@
-package com.example.crudapplication.book.Application;
+package com.example.crudapplication.book.infrastructure;
 
 import com.example.crudapplication.book.Domain.model.Book;
 import com.example.crudapplication.book.Domain.model.BookId;

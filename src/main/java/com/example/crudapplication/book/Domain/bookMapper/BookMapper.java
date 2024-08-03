@@ -57,6 +57,11 @@ public class BookMapper {
         bookEntity.setVersion(updateBook.getVersion());
     }
 
+    /**
+     * @param savedBook the book entity for mapping to dataBase;
+     * @return BookDto object that  is  mapped
+     * */
+
     public static BookDto mapToDto(Book savedBook) {
         return BookDto.builder()
                 .id(savedBook.getId())

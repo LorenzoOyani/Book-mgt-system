@@ -32,7 +32,7 @@ public class UpdateBookRequest {
     @NotBlank
     private String fullName;
 
-    @Min(value = 0)
+    @Min(value = 0, message = "stock cannot be null")
     private Integer stock;
 
     @NotNull

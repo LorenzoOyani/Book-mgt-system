@@ -3,9 +3,11 @@ package com.example.crudapplication.book.Domain.model;
 
 import com.example.crudapplication.book.Domain.payload.CreateBookRequest;
 
+import java.time.LocalDateTime;
+
 
 public class BookFactory {
-    public static Book createBook(CreateBookRequest request){
+    public static Book createBook(CreateBookRequest request, LocalDateTime localDateTime){
         if(!validRequestEntries(request)){
             throw new IllegalArgumentException("invalid book request data");
         }
@@ -15,6 +17,7 @@ public class BookFactory {
      book.setAuthorFullName(request.getFullName());
      book.setStock(request.getStock());
      book.setPrice(request.getPrice());
+     book.setLocalDateTime(localDateTime);
 
      return book;
     }
@@ -37,4 +40,6 @@ public class BookFactory {
         }
         return request.getPrice() != null;
     }
+
+
 }

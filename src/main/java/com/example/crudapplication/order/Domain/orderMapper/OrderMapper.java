@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 public class OrderMapper {
 
-public OrderDTO toOrderDTO(Order source){
+public static OrderDTO toOrderDTO(Order source){
     return OrderDTO.builder()
             .id(source.getOrderId())
             .user(UserMapper.toUserDTO(source.getUser()))

@@ -5,6 +5,7 @@ import com.example.crudapplication.Exception.GeneralException;
 import com.example.crudapplication.book.Application.BookService;
 import com.example.crudapplication.book.Domain.dto.BookDto;
 import com.example.crudapplication.book.Domain.model.BookId;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,7 +48,7 @@ class BookController {
 //    }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BookDto> findBookById(@PathVariable BookId id) {
+    public ResponseEntity<BookDto> findBookById(@Valid @PathVariable BookId id) {
         Optional<BookDto> books = bookService.findBookById(id);
         return books.map(newBookDto -> new ResponseEntity<>(newBookDto, HttpStatus.OK))
                 .orElseThrow(() -> new GeneralException(ErrorCode.BOOK_NOT_FOUND));

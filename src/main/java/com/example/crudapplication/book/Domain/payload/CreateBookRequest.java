@@ -7,8 +7,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -35,4 +37,7 @@ public class CreateBookRequest {
 
     @Version
     private Long version;
+
+    @CreationTimestamp
+    private LocalDateTime localDateTime;
 };

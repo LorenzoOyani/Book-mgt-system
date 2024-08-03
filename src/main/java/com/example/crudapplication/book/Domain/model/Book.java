@@ -10,6 +10,7 @@ import lombok.*;
 import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 
 @RequiredArgsConstructor
@@ -52,10 +53,14 @@ public class Book {
     private Long version;
 
 
+    @NotNull
+    private LocalDateTime localDateTime;
+
+
 
 
     @JsonCreator
-    public static Book createBookWithId(BookId id, Isbn isbn,@JsonProperty("book_name") String name, String authorFullName, int stock, BigDecimal price) {
+    public static Book createBookWithId(BookId id, Isbn isbn,@JsonProperty("book_name") String name, String authorFullName, int stock, BigDecimal price, LocalDateTime localDateTime) {
         Assert.notNull(isbn, "isbn cannot be null");
        Book book = new Book();
        book.id = id;
@@ -64,6 +69,7 @@ public class Book {
        book.authorFullName = authorFullName;
        book.stock = stock;
        book.price = price;
+       book.localDateTime = localDateTime;
 
        return book;
     }

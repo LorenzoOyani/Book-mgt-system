@@ -1,4 +1,4 @@
-package com.example.crudapplication.config;
+package com.example.crudapplication;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

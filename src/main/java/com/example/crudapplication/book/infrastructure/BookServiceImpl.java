@@ -2,14 +2,14 @@ package com.example.crudapplication.book.infrastructure;
 
 import com.example.crudapplication.Exception.ErrorCode;
 import com.example.crudapplication.Exception.GeneralException;
-import com.example.crudapplication.book.Application.BookRepository;
 import com.example.crudapplication.book.Application.BookService;
 import com.example.crudapplication.book.Domain.EntityException.NoAvailableStockException;
+import com.example.crudapplication.book.Domain.Exception.BookNotFoundException;
 import com.example.crudapplication.book.Domain.bookMapper.BookMapper;
 import com.example.crudapplication.book.Domain.dto.BookDto;
 import com.example.crudapplication.book.Domain.model.*;
-import com.example.crudapplication.book.Domain.payload.BookUpdateStockRequest;
 import com.example.crudapplication.book.Domain.payload.CreateBookRequest;
+import com.example.crudapplication.book.Domain.payload.UpdateBookRequest;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,8 +41,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Optional<BookDto> createBook(CreateBookRequest request) {
-        Book createdBook = BookFactory.createBook(request);
+    public Optional<BookDto> createBook(CreateBookRequest request, LocalDateTime dateTime) {
+        Book createdBook = BookFactory.createBook(request, dateTime );
         Book savedBook = bookRepository.save(createdBook);
         BookDto bookDto = BookMapper.mapToDto(savedBook);
         return Optional.of(bookDto);
@@ -107,7 +108,15 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void updateStockById(BookId id, BookUpdateStockRequest updateStockRequest) {
+    public BookDto updateStockById(BookId id, UpdateBookRequest updateBookRequest) {
+
+        Book book = bookRepository.findBookById(id).orElseThrow(() -> new BookNotFoundException(id));
+
+        book.setStock(updateBookRequest.getStock());
+
+        BookMapper.mapBookToUpdate(book, updateBookRequest);
+
+        return BookMapper.mapToDto(book);
 
     }
 

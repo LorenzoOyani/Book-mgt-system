@@ -10,6 +10,7 @@ public enum ErrorCode {
     AUTHOR_NOT_FOUND("AUTHOR_NOT_FOUND", "book with this author name not found"),
     PREFIX_NOT_FOUND("PREFIX_NOT_FOUND", "failure to find a book with an author name that start with ");
 
+
     private final String code;
     private final String message;
 

@@ -9,6 +9,7 @@ import com.example.crudapplication.order.Domain.orderMapper.OrderItemMapper;
 import com.example.crudapplication.order.Application.OrderItemService;
 import com.example.crudapplication.order.Domain.dto.OrderItemsDTO;
 import com.example.crudapplication.order.Domain.model.OrderItems;
+import com.example.crudapplication.order.Domain.orderMapper.OrderMapper;
 import com.example.crudapplication.order.Domain.payload.OrderItemsRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,29 +26,32 @@ public class OrderItemServiceImpl implements OrderItemService {
         this.bookService = bookService;
     }
 
-
     @Override
     public OrderItemsDTO createOrderItem(OrderItemsRequest orderItemsRequest) {
-        Optional<BookDto> bookDto = bookService.findBookById(orderItemsRequest.getBookId());
-       if(bookDto.isEmpty()){
-           log.warn("Book not found with id {}",orderItemsRequest.getBookId());
-       }
-       BookDto bookDTO =bookDto.get();
-       log.info("Book found in dataBase by id of {}",  bookDTO.getId());
-       Book book=BookMapper.toBook(bookDTO);
-       bookService.isStockAvailable(bookDTO, orderItemsRequest.getAmount());
+        Optional<BookDto> bookDtoOptional = bookService.findBookById(orderItemsRequest.getBookId());
 
-       OrderItems  orderItems = OrderItems.builder()
-                .book(book).
-                amount(orderItemsRequest.getAmount())
-              .build();
-       UpdateBookRequest updateStockRequest;
-        updateStockRequest = UpdateBookRequest.builder()
-                .stock(bookDto.get().getStock() - orderItemsRequest.getAmount())
+        if (bookDtoOptional.isEmpty()) {
+            log.warn("book with id of {} not found", orderItemsRequest.getBookId());
+        }
+        BookDto bookDto = bookDtoOptional.get();
+
+        bookService.isStockAvailable(bookDto, orderItemsRequest.getAmount());
+        Book book = BookMapper.toBook(bookDto);
+
+        OrderItems orderItems = OrderItems.builder()
+                .book(book)
+                .amount(orderItemsRequest.getAmount())
                 .build();
 
-        bookService.updateStockById(bookDTO.getId(), updateStockRequest);
+        UpdateBookRequest updateBookStockRequest;
+        updateBookStockRequest = UpdateBookRequest.builder()
+                .stock(bookDto.getStock() - orderItems.getAmount())
+                .build();
+
+        bookService.updateStockById(bookDto.getId(), updateBookStockRequest);
 
         return OrderItemMapper.toOrderItemsDTO(orderItems);
+
+
     }
 }

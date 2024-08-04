@@ -16,21 +16,21 @@ import java.util.stream.Stream;
 @Modulithic
 @SpringBootApplication(scanBasePackages = {"com.example.crudapplication"})
 @Slf4j
-public class CrudApplication implements CommandLineRunner {
+public class CrudApplication  {
 
     public static void main(String[] args) {
         SpringApplication.run(CrudApplication.class, args);
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        List<String> list=new ArrayList<>(Arrays.asList("one","two"));
-        Stream<String> sl = list.stream();
-        list.add("three");
-        String  s = sl.collect(Collectors.joining(","));
-
-        final Integer[] numbers = {1, 2, 3, 4, 5, 6};
-        Arrays.stream(numbers).reduce(0, Integer::sum);
-
-    }
+//    @Override
+//    public void run(String... args) throws Exception {
+//        List<String> list=new ArrayList<>(Arrays.asList("one","two"));
+//        Stream<String> sl = list.stream();
+//        list.add("three");
+//        String  s = sl.collect(Collectors.joining(","));
+//
+//        final Integer[] numbers = {1, 2, 3, 4, 5, 6};
+//        Arrays.stream(numbers).reduce(0, Integer::sum);
+//
+//    }
 }

@@ -1,10 +1,11 @@
-package com.example.crudapplication.book.infrastructure;
+package com.example.crudapplication.book.Application;
 
 import com.example.crudapplication.book.Domain.model.Book;
 import com.example.crudapplication.book.Domain.model.BookId;
 import com.example.crudapplication.book.Domain.model.Isbn;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jdbc.repository.query.Query;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.repository.query.Param;
@@ -22,7 +23,7 @@ public interface BookRepository extends JpaRepository<Book, BookId> {
 
     Optional<Book> findByIsbn(Isbn isbn);
 
-
+    @EntityGraph(attributePaths = "bookId")
     @Lock(LockModeType.OPTIMISTIC)
     Optional<Book> findBookById(BookId bookId);
 };

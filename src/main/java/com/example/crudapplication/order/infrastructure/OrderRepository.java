@@ -9,8 +9,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDateTime;
 
 public interface OrderRepository extends JpaRepository<Order,Long> {
-    Page<Order> findAllByUserId(UserId  userId,Pageable pageable);
+    Page<Order> findAllOrdersByUserId(UserId  userId,Pageable pageable);
 
     Page<Order> findAllByOrderIsBetweenDate(LocalDateTime startDate, LocalDateTime endDate, Pageable paginationRequest);
+
+    <T> T   findById(String id, Class<T> tClass);
 
 }

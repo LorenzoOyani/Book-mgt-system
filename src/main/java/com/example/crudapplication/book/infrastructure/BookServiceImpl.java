@@ -2,6 +2,7 @@ package com.example.crudapplication.book.infrastructure;
 
 import com.example.crudapplication.Exception.ErrorCode;
 import com.example.crudapplication.Exception.GeneralException;
+import com.example.crudapplication.book.Application.BookRepository;
 import com.example.crudapplication.book.Application.BookService;
 import com.example.crudapplication.book.Domain.EntityException.NoAvailableStockException;
 import com.example.crudapplication.book.Domain.Exception.BookNotFoundException;
@@ -52,7 +53,7 @@ public class BookServiceImpl implements BookService {
     @Transactional
     @Override
     public Optional<BookDto> findBookById(BookId id) {
-        Optional<Book> book = bookRepository.findBookById(id);
+        Optional<Book> book = Optional.of(bookRepository.getReferenceById(id));
         return book.map(value -> modelMapper.map(value, BookDto.class));
     }
 
@@ -62,6 +63,7 @@ public class BookServiceImpl implements BookService {
         Page<Book> pageableBook = bookRepository.findAll(pageable);
         return pageableBook.map(paged -> modelMapper.map(paged, BookDto.class));
     }
+
 
     @Transactional
     @Override

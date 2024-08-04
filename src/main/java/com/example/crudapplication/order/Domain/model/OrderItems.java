@@ -27,7 +27,7 @@ public class OrderItems {
     @Min(value = 1, message = "amount of ordered Items  should  be  >=1")
     private int amount;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "order_id",nullable = false,referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", nullable = false,  referencedColumnName = "id")
     private Order order;
 }

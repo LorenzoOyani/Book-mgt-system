@@ -1,6 +1,6 @@
 package com.example.crudapplication.book;
 
-import com.example.crudapplication.book.infrastructure.BookRepository;
+import com.example.crudapplication.book.Application.BookRepository;
 import com.example.crudapplication.book.Domain.dto.BookDto;
 import com.example.crudapplication.book.Domain.model.Book;
 import com.example.crudapplication.book.Domain.model.BookId;
@@ -41,8 +41,6 @@ class BookTest {
 
     @Mock
     private BookRepository bookRepository;
-
-    @Mock
 
     @Autowired
     private MockMvc mockMvc;

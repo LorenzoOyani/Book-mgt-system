@@ -26,4 +26,12 @@ public class Order {
 
     @OneToMany(mappedBy = "Order",  cascade = CascadeType.PERSIST,  fetch = FetchType.EAGER)
     private List<OrderItems> orderItemsList;
+
+
+    public void setOrderItems(List<OrderItems> orderItemsList){
+        this.orderItemsList=orderItemsList;
+        for(OrderItems  items: orderItemsList){
+            items.setOrder(orderItemsList.getFirst().getOrder());
+        }
+    }
 }
